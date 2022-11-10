@@ -1,0 +1,83 @@
+/* Styles Navbar */
+#logo{
+    height: 10%;
+    width: 45px;
+}
+
+.btnOrange{
+    background-color: #E26D00;
+    color: white;
+}
+
+#Connexion{
+    margin-right: 10px;
+}
+
+
+/* Style du Main */
+main {
+    text-align: center;  
+    margin-top: 45px;
+    margin-bottom: 200px;
+}
+
+#imgLogo{
+    margin: auto;
+    width: 512px;
+    height: 512px;
+    background-image: url("../img/logoOrange.png");
+}
+
+#imgLogo h1{
+    padding-top: 145px;
+}
+
+#imgLogo h4{
+    padding-top: 130px;
+}
+
+/* Styles Footer et de ses éléments */
+footer
+{
+	background-color: #292b2c;
+	color: white;
+    	padding-top: 30px;
+	text-align: center;
+}
+
+footer button{
+    height: 40px;
+    width: 55px;
+    border-radius: 50%;
+}
+
+#Equipe{
+    float: left;
+}
+
+#Equipe p{
+    width: 150px;
+}
+
+#Nouvelles
+{
+    margin-left: 100px;
+	width: 350px;
+}
+
+#Nouvelles button
+{
+	background-color: black;
+	border-radius: 0px 50px 50px 0px;
+	padding-bottom: 0;
+}
+#Propos{
+    margin-right: 50px;
+}
+#Propos p {
+    width: 450px;
+}
+
+.TexteGris {
+    color: lightgray;
+}

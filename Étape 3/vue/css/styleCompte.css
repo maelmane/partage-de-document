@@ -1,0 +1,59 @@
+.btnOrange{
+    background-color: #E26D00;
+    color: white;
+}
+
+#logo{
+    height: 10%;
+    width: 45px;
+}
+
+h2 {
+    width: 300px;
+    margin-right: 450px;
+    float: left;
+}
+
+aside {
+	background-color: #fad3af;
+}
+
+.docs{
+    clear: both;
+    padding-bottom: 10px;
+}
+
+.docs p{
+    margin-bottom: 3px;
+}
+
+.orangeBg{
+    background-color: #E26D00;
+}
+
+.hoverName{
+    color: black;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.hoverName:hover{
+    color: #E26D00;
+    text-decoration: none;
+}
+
+.bi-person-plus:hover{
+    color: lightskyblue;
+}
+
+.bi-person-dash:hover{
+    color: red;
+}
+
+.icon{
+    float: right;
+}
+
+.dropdown{
+    float: right;
+}
