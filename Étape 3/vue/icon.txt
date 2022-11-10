@@ -1,0 +1,8 @@
+ajout personne	<i class="bi bi-person-plus"></i>
+supprimer personne	<i class="bi bi-person-dash"></i>
+send message	<i class="bi bi-send"></i>
+coeur (liker)	<i class="bi bi-heart"></i>
+commenter	<i class="bi bi-chat-left"></i>
+downloader	<i class="bi bi-cloud-arrow-down"></i>
+uploader	<i class="bi bi-cloud-arrow-up"></i>
+supprimer document	<i class="bi bi-cloud-minus"></i>
