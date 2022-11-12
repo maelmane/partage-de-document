@@ -1,7 +1,7 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
-    Dernière modifcation: 8/11/2022
+    Dernière modifcation: 12/11/2022
     Modifié par: Mael Mane
 -->
 
@@ -16,7 +16,7 @@
     <title>Création de compte</title>
   </head>
   <body>
-    <form action="action/insertCompte.php" method="post">
+    <form action="modele/insertCompte.php" method="post">
       <h1>Création de compte</h1>
       <div class="logo">
         <img src="img/logoOrange.png" alt="" />
