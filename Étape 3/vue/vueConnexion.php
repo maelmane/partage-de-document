@@ -42,20 +42,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //Valider les identifiants
     if(empty($err_username) && empty($err_password)){
         //Requette Select 
-        $sql = "SELECT id, username, password FROM users WHERE username = :username";
+        $requette = "SELECT id, username, password FROM users WHERE username = :username";
         
-        if($stmt = $pdo->prepare($sql)){
+        if($res = $cnx->prepare($requette)){
             //Lier les paramètres à la requette
-            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+            $res->bindParam(":username", $param_username, PDO::PARAM_STR);
             
             // Set les paramètres
             $param_username = trim($_POST["username"]);
             
             //Executer la requette
-            if($stmt->execute()){
+            if($res->execute()){
                 //Verifier si l'username exist dans la bd, si oui verifier le password
-                if($stmt->rowCount() == 1){
-                    if($row = $stmt->fetch()){
+                if($res->rowCount() == 1){
+                    if($row = $res->fetch()){
                         $id = $row["id"];
                         $username = $row["username"];
                         $hashed_password = $row["password"];
@@ -85,12 +85,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
             //Fermer le statement
-            unset($stmt);
+            unset($res);
         }
     }
     
     // Fermer la connexion
-    unset($pdo);
+    unset($cnx);
 }
 ?>
  
