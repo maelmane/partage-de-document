@@ -24,17 +24,17 @@
             $err_username = "Username ne peut contenir que des lettres, des chiffres et underscores.";
         } else{
             //Requette SELECT
-            $sql = "SELECT id FROM users WHERE username = :username";
+            $requette = "SELECT id FROM users WHERE username = :username";
             
-            if($stmt = $pdo->prepare($sql)){
+            if($res = $cnx->prepare($requette)){
                 // Bind variables to the prepared statement as parameters
-                $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+                $res->bindParam(":username", $param_username, PDO::PARAM_STR);
                 
                 // Set les paramètres
                 $param_username = trim($_POST["username"]);
                 
-                if($stmt->execute()){
-                    if($stmt->rowCount() == 1){
+                if($res->execute()){
+                    if($res->rowCount() == 1){
                         $err_username = "Username déja utilisé";
                     } else{
                         $username = trim($_POST["username"]);
@@ -42,7 +42,7 @@
                 } else{
                     echo "Oops! Un problème est survenue. Réessayer.";
                 }
-                unset($stmt);
+                unset($res);
             }
         }
         
@@ -67,18 +67,18 @@
         if(empty($err_username) && empty($err_password) && empty($confirm_err_password)){
             
             //Requette INSERT
-            $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
+            $requette = "INSERT INTO users (username, password) VALUES (:username, :password)";
             
-            if($stmt = $pdo->prepare($sql)){
+            if($res = $cnx->prepare($requette)){
                 // Bind variables to the prepared statement as parameters
-                $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-                $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
+                $res->bindParam(":username", $param_username, PDO::PARAM_STR);
+                $res->bindParam(":password", $param_password, PDO::PARAM_STR);
                 
                 // Set les paramètres
                 $param_username = $username;
                 $param_password = password_hash($password, PASSWORD_DEFAULT); //Créer un hash pour le mot de passe
                 
-                if($stmt->execute()){
+                if($res->execute()){
                     //Redirger vers la page de login.php
                     header("location: login.php");
                 } else{
@@ -86,12 +86,12 @@
                 }
 
                 //Fermer le statement
-                unset($stmt);
+                unset($res);
             }
         }
         
         //Fermer la connexion
-        unset($pdo);
+        unset($cnx);
     }
 ?>
  
