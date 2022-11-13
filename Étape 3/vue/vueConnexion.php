@@ -11,7 +11,7 @@ session_start();
  
 // Vérifier si l'utilisateur est déja logged in, si oui le rediriger vers la page d'acceuil
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: welcome.php");
+    header("location: vueAcceuil.html");
     exit;
 }
  
