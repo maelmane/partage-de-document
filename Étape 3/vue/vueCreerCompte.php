@@ -80,7 +80,7 @@
                 
                 if($res->execute()){
                     //Redirger vers la page de login.php
-                    header("location: login.php");
+                    header("location: vueConnexion.php");
                 } else{
                     echo "Oops! Un problème est survenue. Réessayer.";
                 }
