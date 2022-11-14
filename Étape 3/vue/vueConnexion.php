@@ -126,7 +126,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <h1>Connexion</h1>
       <div class="logo">
-            <img src="../img/logoOrange.png" alt="" />
+            <img src="img/logoOrange.png" alt="" />
       </div>
       <div class="formcontainer">
         <div class="container">
