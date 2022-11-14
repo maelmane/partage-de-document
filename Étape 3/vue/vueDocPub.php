@@ -1,7 +1,7 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 21/10/2022
-    Dernière modifcation: 8/11/2022
+    Dernière modifcation: 14/11/2022
     Modifié par: Mael Mane
 -->
 
@@ -72,7 +72,7 @@
                                 //Prendre les données des input du form  dans vueCreerCompte
                                 
                                 //Insérer les données dans la table compte et l'executer
-                                $requette = "SELECT * FROM docpublic";
+                                $requette = "SELECT * FROM documents";
                                 $resultat = $cnx->query($requette);
 
                                 foreach ($resultat as $row){
