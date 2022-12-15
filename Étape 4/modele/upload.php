@@ -9,7 +9,7 @@
   session_start();
   $user_name = $_SESSION['username'];
 
-  require_once 'dbConfig.php';
+  require_once '../config/dbConfig.php';
 
   try{
     if(isset($_FILES['file'])){
@@ -36,7 +36,7 @@
         }
         
         if($res->execute()){
-          header("location: vueCompte.php");
+          header("location: ../vue/vueCompte.php");
         }else{
           echo "Error";
         }
