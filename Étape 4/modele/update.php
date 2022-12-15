@@ -8,7 +8,7 @@
   session_start();
   $user_name = $_SESSION['username'];
 
-  require_once 'dbConfig.php';
+  require_once '../config/dbConfig.php';
 
   try{
     if(isset($_FILES['file'])){
@@ -18,7 +18,7 @@
       $file_ext=strtolower(end(explode('.',$_FILES['file']['name'])));
       $file_content = file_get_contents($_FILES['file']);
 
-      $titreMod = $_POST['nomFichier'];
+      $titreMod = $_POST['titreFile'];
 
       $param_username = $param_filename = "";
       
@@ -37,7 +37,7 @@
         }
         
         if($res->execute()){
-          header("location: vueCompte.php");
+          header("location: ../vue/vueCompte.php");
         }else{
           echo "Erreur";
         }
