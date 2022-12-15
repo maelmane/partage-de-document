@@ -1,0 +1,45 @@
+.btnOrange{
+    background-color: #E26D00;
+    color: white;
+}
+
+.navbar .btnOrange{
+    margin-right: 5px;
+}
+
+#logo{
+    height: 10%;
+    width: 45px;
+}
+
+
+.docs p{
+    margin-bottom: 3px;
+}
+
+.hoverName{
+    color: black;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.hoverName:hover{
+    color: #E26D00;
+    text-decoration: none;
+}
+
+.icon{
+    float: right;
+}
+
+.bi-heart:hover{
+    color: red;
+}
+
+.card{
+    margin-bottom: 15px;
+}
+
+.card-body p>span{
+    margin-left: 10px;
+}
