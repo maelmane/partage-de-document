@@ -6,92 +6,97 @@
 -->
 
 <?php
-// Initialiser la session
-session_start();
- 
-// Vérifier si l'utilisateur est déja logged in, si oui le rediriger vers la page d'acceuil
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: vueAcceuil.php");
-    exit;
-}
- 
-//Inclusion de la page de config
-require_once "../config/dbConfig.php";
- 
-//Définir et initialiser les variables
-$username = $password = "";
-$err_username = $err_password = $err_connexion = "";
- 
+    // Initialiser la session
+    session_start();
+    
+    // Vérifier si l'utilisateur est déja logged in, si oui le rediriger vers la page d'acceuil
+    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+        header("location: vueAcceuil.php");
+        exit;
+    }
+    
+    //Inclusion de la page de connexionBD et User
+    include_once ('../modele/DAO/ConnexionBD.class.php');
+    /*
+    include_once ('../modele/classes/User.class.php');
+    include_once ('../modele/DAO/UserDAO.class.php');
+    $dao = new UserDAO();
+    */
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
-    //Vérifier si le username est vide
-    if(empty(trim($_POST["username"]))){
-        $err_username = "Veuillez entrer un username";
-    } else{
-        $username = trim($_POST["username"]);
-    }
+    //Définir et initialiser les variables
+    $username = $password = "";
+    $err_username = $err_password = $err_connexion = "";
     
-    //Vérifier si le password est vide
-    if(empty(trim($_POST["password"]))){
-        $err_password = "Veuillez entrer un mot de passe";
-    } else{
-        $password = trim($_POST["password"]);
-    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
     
-    //Valider les identifiants
-    if(empty($err_username) && empty($err_password)){
-        //Requette Select 
-        $requette = "SELECT id, username, password FROM users WHERE username = :username";
+        //Vérifier si le username est vide
+        if(empty(trim($_POST["username"]))){
+            $err_username = "Veuillez entrer un username";
+        } else{
+            $username = trim($_POST["username"]);
+        }
         
-        if($res = $cnx->prepare($requette)){
-            //Lier les paramètres à la requette
-            $res->bindParam(":username", $param_username, PDO::PARAM_STR);
+        //Vérifier si le password est vide
+        if(empty(trim($_POST["password"]))){
+            $err_password = "Veuillez entrer un mot de passe";
+        } else{
+            $password = trim($_POST["password"]);
+        }
+        
+        //Valider les identifiants
+        if(empty($err_username) && empty($err_password)){
+            //Requette Select 
+            $requette = "SELECT id, username, password FROM users WHERE username = :username";
             
-            // Set les paramètres
-            $param_username = trim($_POST["username"]);
-            
-            //Executer la requette
-            if($res->execute()){
-                //Verifier si l'username existe dans la bd, si oui verifier le password
-                if($res->rowCount() == 1){
-                    if($row = $res->fetch()){
-                        $id = $row["id"];
-                        $username = $row["username"];
-                        $hashed_password = $row["password"];
+            if($res = $cnx->prepare($requette)){
+                //Lier les paramètres à la requette
+                $res->bindParam(":username", $param_username, PDO::PARAM_STR);
+                
+                // Set les paramètres
+                $param_username = trim($_POST["username"]);
+                
+                //Executer la requette
+                if($res->execute()){
+                    //Verifier si l'username existe dans la bd, si oui verifier le password
+                    if($res->rowCount() == 1){
+                        if($row = $res->fetch()){
+                            $id = $row["id"];
+                            $username = $row["username"];
+                            $hashed_password = $row["password"];
 
-                        if(password_verify($password, $hashed_password)){
-                            //Si le password correspond commencer une nouvelle session
-                            session_start();
-                            
-                            
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
-                            
-                            //Rediriger vers la page d'acceuil
-                            header("location: vueAcceuil.php");
-                        } else{
-                            //Password pas bon
-                            $err_connexion = "Username ou Password invalide";
+                            if(password_verify($password, $hashed_password)){
+                                //Si le password correspond commencer une nouvelle session
+                                session_start();
+                                
+                                // Store data in session variables
+                                $_SESSION["loggedin"] = true;
+                                $_SESSION["id"] = $id;
+                                $_SESSION["username"] = $username;                            
+                                
+                                //Rediriger vers la page d'acceuil
+                                header("location: vueAccueil.php");
+                            } else{
+                                //Password pas bon
+                                $err_connexion = "Username ou Password invalide";
+                            }
                         }
+                    } else{
+                        // Username doesn't exist, display a generic error message
+                        $err_connexion = "Username ou Password invalide";
                     }
                 } else{
-                    // Si l'username n'existe pas
-                    $err_connexion = "Username ou Password invalide";
+                    echo "Oops! Un problème est survenue. Réessayer.";
                 }
-            } else{
-                echo "Oops! Un problème est survenue. Réessayer.";
-            }
 
-            //Fermer le statement
-            unset($res);
+                //Fermer le statement
+                unset($res);
+            }
         }
+        
+        // Fermer la connexion
+        unset($cnx);
     }
-    
-    // Fermer la connexion
-    unset($cnx);
-}
 ?>
  
 
@@ -108,9 +113,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
     <title>Connexion</title>
-  </head>
 
-  <body>
+    <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <h1>Connexion</h1>
       <div class="logo">

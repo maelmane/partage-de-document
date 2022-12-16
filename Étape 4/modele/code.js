@@ -19,6 +19,3 @@ function openFormMod(){
 function closeFormMod() {
     document.getElementById("formMod").style.display = "none";
 }
-
-
-
