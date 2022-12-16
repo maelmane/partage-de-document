@@ -58,3 +58,9 @@ button:hover {
     text-align:left;
 }
     
+
+.btn-secondary{
+    color: #fff;
+    background-color: #E26D00;
+    border-color: #E26D00;
+}

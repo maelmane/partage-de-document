@@ -1,6 +1,7 @@
 .btnOrange{
     background-color: #E26D00;
     color: white;
+    margin-right: 10px;
 }
 
 #logo{
@@ -10,17 +11,22 @@
 
 h2 {
     width: 300px;
-    margin-right: 450px;
+    margin-right: 500px;
     float: left;
+}
+
+h3:last-of-type{
+    margin-top: 20px;
 }
 
 aside {
 	background-color: #fad3af;
+    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 .docs{
     clear: both;
-    padding-bottom: 10px;
 }
 
 .docs p{
@@ -56,4 +62,61 @@ aside {
 
 .dropdown{
     float: right;
+}
+
+#vis{
+    float: right;
+}
+
+.card{
+    margin-bottom: 10px;
+}
+
+
+
+/* La popup form - display: none par défaut   changer avec fonction JavaScript  openForm()*/
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.form-container{
+    max-width: 350px;
+    padding: 10px;
+    background-color: white;
+}
+
+.form-container .btnOrange {
+    margin-right: 100px;
+}
+
+.form-container .btn{
+    padding: 0px 25px;
+}
+
+.form-container #nomFichier, #file{
+    /*padding-bottom: 1px;*/
+    margin-bottom: 10px;
+}
+
+.form-container h5{
+    margin-bottom: 20px;
+}
+
+
+
+
+input[type=text]{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding-right: 0px;
+}
+
+#recherche{
+    padding: 0 12px;
 }

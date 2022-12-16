@@ -1,7 +1,7 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 18/10/2022
-    Dernière modifcation: 13/11/2022
+    Dernière modifcation: 15/12/2022
     Modifié par: Mael Mane
 -->
 <!DOCTYPE html>
@@ -13,7 +13,11 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+<<<<<<< HEAD
+        <style><?php include "css/styleAcceuil.css"?></style>
+=======
         <link href="css/styleAcceuil.css" rel="stylesheet">
+>>>>>>> 10ca321394dba852cf7f6c876e97d36fe1091277
         <title>PartageDeDocuments</title>
   </head>
   <body>
@@ -29,6 +33,7 @@
     <main>
       <h1>Bienvenue sur PartageDeDocuments</h1>
       <div id="imgLogo">
+        <img src="img/logoOrange.png">
       </div>
       <h4>Partagez vos documents sans sousis</h4>
     </main>
@@ -53,7 +58,6 @@
           <div class="col-12 col-md-4 mx-auto" id="Equipe">
             <div class="font-weight-bold text-uppercase">Notre Équipe</div>
             <p class="TexteGris mx-auto">
-                Johnathan Cormier,
                 Lesly-Junior Gourdet,
                 Maël Mane
             </p>

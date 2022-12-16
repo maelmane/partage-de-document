@@ -1,14 +1,18 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
+<<<<<<< HEAD
+    Dernière modifcation: 15/12/2022
+=======
     Dernière modifcation: 14/12/2022
+>>>>>>> 10ca321394dba852cf7f6c876e97d36fe1091277
     Modifié par: Mael Mane
 -->
 
 
 <?php
     //Inclusion de la page config
-    require_once "dbConfig.php";
+    require_once "../config/dbConfig.php";
     
     //Définir et initialiser les variables
     $username = $password = $confirm_password = "";
@@ -99,7 +103,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <style><?php include "css/styleCreerCompte.css"?></style>
+=======
     <link rel="stylesheet" href="css/styleCreerCompte.css">
+>>>>>>> 10ca321394dba852cf7f6c876e97d36fe1091277
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -107,23 +115,14 @@
     <title>Création de compte</title>
 
     <style>
-        .btn-secondary{color: #fff;
-                    background-color: #E26D00;
-                    border-color: #E26D00;}
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 8px 8px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;}
+        
     </style>
   </head>
   <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <h1>Création de compte</h1>
       <div class="logo">
-            <img src="../img/logoOrange.png" alt="" />
+            <img src="img/logoOrange.png" alt="" />
       </div>
       <div class="formcontainer">
         <div class="container">

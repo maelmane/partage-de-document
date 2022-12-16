@@ -49,12 +49,13 @@
                         <?php
                             try{
                                 //Établir une connexion avec la base de données partagedoc
-                                $cnx = new PDO('mysql:host=localhost; dbname=partagedoc', "root", "root");
+                                //$cnx = new PDO('mysql:host=localhost; dbname=partagedoc', "root", "root");
+                                require_once '../config/dbConfig.php';
                                 
                                 //Prendre les données des input du form  dans vueCreerCompte
                                 
                                 //Insérer les données dans la table compte et l'executer
-                                $requette = "SELECT * FROM documents WHERE  statut = 'public'";
+                                $requette = "SELECT * FROM files WHERE  statut = 'public'";
                                 $resultat = $cnx->query($requette);
 
                                 foreach ($resultat as $row){
@@ -62,7 +63,7 @@
                                         echo "<div class='card-body'>";
                                             echo "<p>".$row["titre"]."<span> <i class='bi bi-heart'></i></span> ".$row["nbLike"]."</p>";
                                             echo "<span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>";
-                                            echo "<a class='hoverName'>".$row["username"]."</a>";
+                                            echo "<a class='hoverName'>".$row["auteur"]."</a>";
                                         echo "</div>";
                                         echo "<div class='card-footer'>";
                                             echo "<form class='d-flex'>";

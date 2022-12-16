@@ -18,6 +18,7 @@
       $file_tmp =$_FILES['file']['tmp_name'];
       $file_ext=strtolower(end(explode('.',$_FILES['file']['name'])));
       $file_content = file_get_contents($_FILES['file']);
+      $file_visibility = $_POST['visibilite'];
 
       $param_username = $param_filename = "";
       
@@ -26,7 +27,7 @@
         
       if(empty($errors)==true){
         move_uploaded_file($file_tmp,"uploads/".$file_name);
-        $req = "INSERT INTO files (titre, auteur) VALUES ('$file_name', '$user_name')";
+        $req = "INSERT INTO files (titre, auteur, statut) VALUES ('$file_name', '$user_name', '$file_visibility')";
         if($res = $cnx->prepare($req)){
           $res->bindParam($user_name, $param_username, PDO::PARAM_STR);
           $res->bindParam($file_name, $param_filename, PDO::PARAM_STR);

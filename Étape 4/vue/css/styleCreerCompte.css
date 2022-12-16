@@ -38,4 +38,20 @@ button:hover {
     padding: 16px 0;
     text-align:left;
 }
+
+.btn-secondary{
+    color: #fff;
+    background-color: #E26D00;
+    border-color: #E26D00;
+}
+
+input[type=text], input[type=password] {
+width: 100%;
+padding: 8px 8px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
     
+

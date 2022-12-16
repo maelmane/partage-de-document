@@ -1,7 +1,7 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
-    Dernière modifcation: 12/11/2022
+    Dernière modifcation: 15/12/2022
     Modifié par: Mael Mane
 -->
 
@@ -64,20 +64,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             //Si le password correspond commencer une nouvelle session
                             session_start();
                             
-                            // Store data in session variables
+                            
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;                            
                             
                             //Rediriger vers la page d'acceuil
-                            header("location: vueAccueil.php");
+                            header("location: vueAcceuil.php");
                         } else{
                             //Password pas bon
                             $err_connexion = "Username ou Password invalide";
                         }
                     }
                 } else{
-                    // Username doesn't exist, display a generic error message
+                    // Si l'username n'existe pas
                     $err_connexion = "Username ou Password invalide";
                 }
             } else{
@@ -102,31 +102,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styleCreerCompte.css">
+    <style><?php include "css/styleConnexion.css"?></style>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
     <title>Connexion</title>
-
-    <style>
-        .btn-secondary{color: #fff;
-                    background-color: #E26D00;
-                    border-color: #E26D00;}
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 8px 8px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;}
-    </style>
   </head>
+
   <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <h1>Connexion</h1>
       <div class="logo">
-            <img src="../img/logoOrange.png" alt="" />
+            <img src="img/logoOrange.png" alt="" />
       </div>
       <div class="formcontainer">
         <div class="container">
@@ -143,7 +131,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="form-group">
                     <input type="submit" class="btn btn-secondary" value="Connexion">
                 </div>
-                <p>Pas de compte? <a href="register.php">Créez-vous en un ici</a>.</p>
+                <p>Pas de compte? <a href="vueCreerCompte.php">Créez-vous en un ici</a>.</p>
             </div>
       </div>
     </form>

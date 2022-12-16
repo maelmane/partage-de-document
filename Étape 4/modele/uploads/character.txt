@@ -1,0 +1,6 @@
+strength 20
+agilty 32
+intelligence 0
+stamina 12
+charisma 100
+luck 98
