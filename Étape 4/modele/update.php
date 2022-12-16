@@ -19,10 +19,7 @@
       $file_content = file_get_contents($_FILES['file']);
 
       $titreMod = $_POST['titreFile'];
-<<<<<<< HEAD
       $file_visibility = $_POST['visibilite'];
-=======
->>>>>>> 10ca321394dba852cf7f6c876e97d36fe1091277
 
       $param_username = $param_filename = "";
       
