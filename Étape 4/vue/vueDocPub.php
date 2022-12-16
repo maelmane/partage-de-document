@@ -1,8 +1,8 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 21/10/2022
-    Dernière modifcation: 14/12/2022
-    Modifié par: Mael Mane
+    Dernière modifcation: 16/12/2022
+    Modifié par: Lesly Gourdet
 -->
 
 <!DOCTYPE html>
@@ -14,8 +14,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-        <link href="css/styleDocPub.css" rel="stylesheet">
-        <title>ParatgeDeDocuments</title>
+        <style><?php include "css/styleDocPub.css"?></style>
+        <title>PartageDeDocuments</title>
     </head>
     <body>
        <?php
@@ -25,6 +25,9 @@
             }else{
                 include_once ('../modele/header.inc.php');
             }
+            require_once ('../modele/classes/Document.class.php');
+            require_once ('../modele/DAO/DocumentsDAO.class.php');
+            $dao = new DocumentsDAO();
        ?>
         <main>
             <div class="container mt-3">
@@ -48,22 +51,23 @@
 
                         <?php
                             try{
-                                //Établir une connexion avec la base de données partagedoc
-                                //$cnx = new PDO('mysql:host=localhost; dbname=partagedoc', "root", "root");
-                                require_once '../config/dbConfig.php';
+                                /* Établir une connexion avec la base de données partagedoc
+                                $cnx = new PDO('mysql:host=localhost; dbname=partagedoc', "root", "");
                                 
-                                //Prendre les données des input du form  dans vueCreerCompte
+                                Prendre les données des input du form  dans vueCreerCompte
                                 
-                                //Insérer les données dans la table compte et l'executer
-                                $requette = "SELECT * FROM files WHERE  statut = 'public'";
+                                Insérer les données dans la table compte et l'executer
+                                $requette = "SELECT * FROM documents WHERE  statut = 'public'";
                                 $resultat = $cnx->query($requette);
+                                */
 
+                                $resultat = $dao->getTousLesDocumentsPublics();
                                 foreach ($resultat as $row){
                                     echo "<div class='card'>";
                                         echo "<div class='card-body'>";
-                                            echo "<p>".$row["titre"]."<span> <i class='bi bi-heart'></i></span> ".$row["nbLike"]."</p>";
+                                            echo "<p>".$row->getTitre()."<span> <i class='bi bi-heart'></i></span> ".$row->getNbLike()."</p>";
                                             echo "<span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>";
-                                            echo "<a class='hoverName'>".$row["auteur"]."</a>";
+                                            echo "<a class='hoverName'>".$row->getAuteur()."</a>";
                                         echo "</div>";
                                         echo "<div class='card-footer'>";
                                             echo "<form class='d-flex'>";
@@ -73,14 +77,14 @@
                                         echo "</div>";
                                     echo "</div>";
                                 }
-                                $resultat->closeCursor();
+                             //   $resultat->closeCursor();
                             } catch (PDOException $e){
                             print "Erreur!: " . $e->getMessage() . "<br/>";
                             die();
-                            } finally {
-                                //Fermer la connexion avec la base de données
+                            } /* finally {
+                                Fermer la connexion avec la base de données
                                 $cnx=null;
-                            }
+                            } */
                         ?>
                     </div>
                 </div>

@@ -2,11 +2,11 @@
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
     Dernière modifcation: 15/12/2022
-    Modifié par: Mael Mane
+    Modifié par: Lesly Gourdet
 -->
 <?php
     session_start();
-    $user_name = $_SESSION['username'];
+    //$user_name = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,16 +19,14 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
         <style><?php include "css/styleCompte.css"?></style>
         <script src="../modele/code.js"></script>
-        <?php
-            //require_once ('../config/connexionBD.php');
-            //require_once ('../class/DocumentsDAO.php');
-            //$dao = new DocumentsDAO();
-        ?>
-        <title>ParatgeDeDocuments</title>
+        <title>PartageDeDocuments</title>
     </head>
     <body>
         <?php
             include_once ('../modele/headerConnecte.inc.php');
+            require_once ('../modele/classes/Document.class.php');
+            require_once ('../modele/DAO/DocumentsDAO.class.php');
+            $dao = new DocumentsDAO();
        ?>
         <div class="container mt-3">
             
@@ -36,7 +34,7 @@
                 <main class="col-6 col-md-9">
                     <article>
                         <h2>Vos Documents</h2>
-                        
+
                         <button class="btn btnOrange btnAction" type="button" onclick="openForm()">Ajouter un document <i class="bi bi-cloud-arrow-up"></i></button>
                         <button class="btn btnOrange btnAction" type="button" onclick="openFormMod()">Modifier un document</button>
                         
@@ -72,34 +70,37 @@
                             </form>
                         </div>
 
-
                         <div class="docs">
+                            
                             <?php       //AFFICHAGE DES DOCUMENTS DE L'UTILISATEUR
                             try{
-                                //Établir une connexion avec la base de données 
-                                require_once '../config/dbConfig.php';
+                                /*Établir une connexion avec la base de données 
+                                include_once ('../modele/DAO/ConnexionBD.class.php');
                                 
-                                //Insérer les données dans la table compte et l'executer
-                                //$requette = "SELECT * FROM documents WHERE auteur = ".$_SESSION['username'];
-                                $requette = "SELECT * FROM files WHERE auteur = '$user_name'";
+                                Insérer les données dans la table compte et l'executer
+                                $requette = "SELECT * FROM documents WHERE auteur = ".$_SESSION['username'];
+                                $requette = "SELECT * FROM documents WHERE auteur = '$user_name'";
                                 $resultat = $cnx->query($requette);
-
+                                */
+                                $resultat = $dao->getTousLesNomsDocuments();
                                 foreach ($resultat as $row){
                                     echo "<div class='card'>";
                                         echo "<div class='card-body'>";
-                                            echo "<p>".$row["titre"]."</p>";
-                                            echo "<a class='hoverName'>".$row["auteur"]."</a>";
+                                            echo "<p>".$row->getTitre()."</p>";
+                                            echo "<a class='hoverName'>".$row->getAuteur()."</a>";
                                             echo "<button type='button' class='btn btnOrange' id='vis' onclick='openFormVisi()'>Visibilité</button>";
+                                            echo "</div>";
                                         echo "</div>";
                                     echo "</div>";
                                 }
-                                $resultat->closeCursor();
+                               // $resultat->closeCursor();
                             } catch (PDOException $e){
                                 print "Erreur!: " . $e->getMessage() . "<br/>";
                                 die();
-                            } finally {
+                            } /*finally {
                                 //Fermer la connexion avec la base de données
-                            }
+                                $cnx=null;
+                            } */
                         ?>
                         </div>
                         <div class="form-popup" id="visibilite">
@@ -156,31 +157,31 @@
                     <div>
                         
                         <?php   //AFFICHAGE DES AMIS DE L'UTILISATEUR       Ajouter bouton pour enlever ami
-                            try{
-                                //Aller chercher les informations des utilisateur ayant une relation F(riend) avec l'utilisateur connecté
-                                $requette = "SELECT * FROM relation WHERE (sender = '$user_name' OR receiver ='$user_name') AND statut = 'F'";
-                                $resultat = $cnx->query($requette);
-                                $nomAmi = "";
+                                try{
+                                    //Aller chercher les informations des utilisateur ayant une relation F(riend) avec l'utilisateur connecté
+                                    $requette = "SELECT * FROM relation WHERE (sender = '$user_name' OR receiver ='$user_name') AND statut = 'F'";
+                                    $resultat = $cnx->query($requette);
+                                    $nomAmi = "";
 
-                                foreach ($resultat as $row){
-                                    if($row["sender"]!= $user_name){
-                                        $nomAmi = $row["sender"];
-                                    }elseif($row["receiver"]!=$user_name){
-                                        $nomAmi = $row["receiver"];
-                                    }
-                                    echo "<div class='card'>";
-                                        echo "<div class='card-body'>";
-                                            echo "<a class='hoverName'>".$nomAmi."</a>";
-                                            //echo "<span class='icon'><i class='bi bi-person-plus' id='addFriend'></i> <i class='bi bi-person-dash' id='removeFriend'></span>";
+                                    foreach ($resultat as $row){
+                                        if($row["sender"]!= $user_name){
+                                            $nomAmi = $row["sender"];
+                                        }elseif($row["receiver"]!=$user_name){
+                                            $nomAmi = $row["receiver"];
+                                        }
+                                        echo "<div class='card'>";
+                                            echo "<div class='card-body'>";
+                                                echo "<a class='hoverName'>".$nomAmi."</a>";
+                                                //echo "<span class='icon'><i class='bi bi-person-plus' id='addFriend'></i> <i class='bi bi-person-dash' id='removeFriend'></span>";
+                                            echo "</div>";
                                         echo "</div>";
-                                    echo "</div>";
+                                    }
+                                    $resultat->closeCursor();
+                                } catch (PDOException $e){
+                                    print "Erreur!: " . $e->getMessage() . "<br/>";
+                                    die();
                                 }
-                                $resultat->closeCursor();
-                            } catch (PDOException $e){
-                                print "Erreur!: " . $e->getMessage() . "<br/>";
-                                die();
-                            }
-                        ?>
+                            ?>
                     </div>
                 </aside>
             </div>

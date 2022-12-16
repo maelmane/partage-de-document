@@ -6,9 +6,9 @@
 -->
 <?php
   session_start();
-  $user_name = $_SESSION['username'];
+  //$user_name = $_SESSION['username'];
 
-  require_once '../config/dbConfig.php';
+  require_once ('../modele/DAO/ConnexionBD.class.php');
 
   try{
     if(isset($_FILES['file'])){
