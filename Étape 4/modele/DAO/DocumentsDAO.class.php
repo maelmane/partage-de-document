@@ -14,7 +14,7 @@
         public static function getTousLesNomsDocuments(){
             try{
                 $listeDocuments =  array();
-                $req = "SELECT * FROM documents";
+                $req = "SELECT * FROM files";
                 $cnx = ConnexionBD::getConnexion();
                 $resultat = $cnx->query($req);
                 
@@ -37,7 +37,7 @@
         public static function getTousLesDocumentsPublics(){
             try{
                 $listeDocuments =  array();
-                $req = "SELECT * FROM documents WHERE statut = 'public'";
+                $req = "SELECT * FROM files WHERE statut = 'public'";
                 $cnx = ConnexionBD::getConnexion();
                 $resultat = $cnx->query($req);
                 
@@ -59,7 +59,7 @@
 
         public static function find($titreDocument){
             $bd = ConnexionBD::getConnexion();
-            $stmt = $bd->prepare("SELECT * FROM documents WHERE titre = :x"); // documents et non pas files
+            $stmt = $bd->prepare("SELECT * FROM files WHERE titre = :x");
             $stmt->execute(array(':x' => $titreDocument));
 
             $resultat = $stmt->fetch(PDO::FETCH_OBJ);
