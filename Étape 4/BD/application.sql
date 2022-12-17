@@ -19,6 +19,27 @@
 CREATE DATABASE IF NOT EXISTS `application` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
 USE `application`;
 
+-- Dumping structure for table application.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dumping data for table application.users: ~8 rows (approximately)
+INSERT INTO `users` (`id`, `username`, `password`) VALUES
+	(1, 'john_12', '$2y$10$.jreKCXvvBWzKvq01EmLvuO4V1xbf3x7zIwBg9PgcPLz49F7xsCRi'),
+	(2, 'JoshDane', '$2y$10$Tbbevd1HykuqBwDvVVBwRe0dk2X91ZolnnPHT.isKQ6Cd3OKUH8Y6'),
+	(3, 'JaneDoe7', '$2y$10$kFTr8wfkJqe/9coQlYKS9uDSNiUBxHNPQnS630O0GEd6M4tTE3i8.'),
+	(4, 'Joe64', '$2y$10$r6/qVf2t0SehhKK2QDAEn.MMYSBT67rhOmnCXcmTJgXjeM31YQtze'),
+	(5, 'matt_4', '$2y$10$dxOIcUqJrpirq1X4YFGvU.nxp8Djc2J7B8qD6eOPXJ/T1Uv3XRA1y'),
+	(6, 'paulie90', '$2y$10$hLAdNhvZt6Gzt.7YGE2TrO41I7zzX6/VN5U/hSlL7KPE9Dr1rqwUy'),
+	(7, 'Alex_Smith', '$2y$10$awdjyUoPY2YQLPYT1tFvGuI86b9F6ZxSoJwFzZTUg/RksRvWug1tm'),
+	(8, 'XwillieX', '$2y$10$xgX3AXZtiFgke/Y/fDDi7.DoKTSyw8pgG18IfX6zvXxKaomfl2zbi');
+
 -- Dumping structure for table application.documents
 CREATE TABLE IF NOT EXISTS `documents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,27 +101,6 @@ INSERT INTO `relation` (`id_relation`, `sender`, `receiver`, `statut`) VALUES
 	(3, 'paulie90', 'JaneDoe7', 'P'),
 	(4, 'matt_4', 'john_12', 'F'),
 	(5, 'Joe64', 'JaneDoe7', 'P');
-
--- Dumping structure for table application.users
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL DEFAULT '',
-  `password` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- Dumping data for table application.users: ~8 rows (approximately)
-INSERT INTO `users` (`id`, `username`, `password`) VALUES
-	(1, 'john_12', '$2y$10$.jreKCXvvBWzKvq01EmLvuO4V1xbf3x7zIwBg9PgcPLz49F7xsCRi'),
-	(2, 'JoshDane', '$2y$10$Tbbevd1HykuqBwDvVVBwRe0dk2X91ZolnnPHT.isKQ6Cd3OKUH8Y6'),
-	(3, 'JaneDoe7', '$2y$10$kFTr8wfkJqe/9coQlYKS9uDSNiUBxHNPQnS630O0GEd6M4tTE3i8.'),
-	(4, 'Joe64', '$2y$10$r6/qVf2t0SehhKK2QDAEn.MMYSBT67rhOmnCXcmTJgXjeM31YQtze'),
-	(5, 'matt_4', '$2y$10$dxOIcUqJrpirq1X4YFGvU.nxp8Djc2J7B8qD6eOPXJ/T1Uv3XRA1y'),
-	(6, 'paulie90', '$2y$10$hLAdNhvZt6Gzt.7YGE2TrO41I7zzX6/VN5U/hSlL7KPE9Dr1rqwUy'),
-	(7, 'Alex_Smith', '$2y$10$awdjyUoPY2YQLPYT1tFvGuI86b9F6ZxSoJwFzZTUg/RksRvWug1tm'),
-	(8, 'XwillieX', '$2y$10$xgX3AXZtiFgke/Y/fDDi7.DoKTSyw8pgG18IfX6zvXxKaomfl2zbi');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

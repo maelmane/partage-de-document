@@ -1,15 +1,15 @@
 <!--
     Auteur: Lesly Gourdet
     Date de créaton: 8/11/2022
-    Dernière modifcation: 15/12/2022
+    Dernière modifcation: 17/12/2022
     Modifié par: Lesly Gourdet
 -->
 <?php
-    class Document {
+    class File {
         // Attributs
         private $titre = "";
-        private $url = "";
         private $auteur = "";
+        private $date = "";
         private $nbLike = "";
         private $statut = "";
     
@@ -21,8 +21,8 @@
             return $this->auteur;
         }
 
-        public function getUrl() {
-            return $this->url;
+        public function getDate() {
+            return $this->date;
         }
 
         public function getNbLike() {
@@ -41,8 +41,8 @@
             $this->auteur = $value;
         }
 
-        public function setUrl() {
-            return $this->url;
+        public function setDate($value){
+            $this->date = $value;
         }
 
         public function setNbLike($value) {
