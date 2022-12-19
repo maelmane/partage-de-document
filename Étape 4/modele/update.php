@@ -8,7 +8,7 @@
   session_start();
   $user_name = $_SESSION['username'];
 
-  require_once '../config/dbConfig.php';
+  require_once '../modele/config/dbConfig.php';
 
   $cnx=ConnexionBD::getConnexion();
   try{
