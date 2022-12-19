@@ -1,7 +1,7 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
-    Dernière modifcation: 15/12/2022
+    Dernière modifcation: 18/12/2022
     Modifié par: Mael Mane
 -->
 <?php
@@ -29,6 +29,7 @@
             require_once ('../modele/DAO/FilesDAO.class.php');
             require_once ('../modele/classes/Relation.class.php');
             require_once ('../modele/DAO/RelationDAO.class.php');
+            require_once '../modele/config/dbConfig.php';
             $daoF = new FilesDAO();
             $daoR = new RelationDAO();
        ?>
@@ -39,8 +40,9 @@
                     <article>
                         <h2>Vos Documents</h2>
                         
-                        <button class="btn btnOrange btnAction" type="button" onclick="openForm()">Ajouter un document <i class="bi bi-cloud-arrow-up"></i></button>
+                        <button class="btn btnOrange btnAction" type="button" onclick="openForm()">Ajouter un document <i class="bi bi-cloud-plus"></i></button>
                         <button class="btn btnOrange btnAction" type="button" onclick="openFormMod()">Modifier un document</button>
+                        <button class="btn btn-danger btnAction" type="button" onclick="openFormSup()">Supprimer un document</button>
                         
                         <div class="form-popup" id="formDoc">
                             <form action="../modele/upload.php" method="post" enctype="multipart/form-data" class="form-container">
@@ -75,32 +77,43 @@
                         </div>
 
 
+                        <div class="form-popup" id="formSup">
+                            <form action="../modele/delete.php" method="post" enctype="multipart/form-data" class="form-container">
+                                <h5 class="text-center">Veuillez choisir un document</h5>
+                                <label>Nom du fichier a supprimé:</label>
+                                <input type="text" name="titreFile" id="nomFichier"/>
+                                <input type="submit" class="btn btnOrange"/>
+                                <button type="button" class="btn btn-danger" onclick="closeFormSup()">Annuler</button>
+                            </form>
+                        </div>
+
+
                         <div class="docs">
                             <?php       //AFFICHAGE DES DOCUMENTS DE L'UTILISATEUR
-                            try{
-                                $resultat = $daoF->getTousLesFiles();
-                                foreach ($resultat as $row){
-                                    $fileName = $row->getTitre();
-                                    echo "<div class='card'>";
-                                        echo "<div class='card-body'>";
-                                            echo "<p>".$fileName."</p>";
-                                            echo ("<a title='Télécharger' href=../modele/uploads/$fileName download>
-                                                    <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
-                                                  </a>");
-                                            //echo("<a title='Supprimer' href=../modele/delete.php delete>
-                                            //        <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
-                                            //    </a>");
-                                            echo "<a class='hoverName'>".$row->getAuteur()."</a>";
-                                            //echo "<button type='button' class='btn btnOrange' id='vis' onclick='openFormVisi()'>Visibilité</button>";
+                                try{
+    
+                                    $requette = "SELECT * FROM files WHERE auteur = '$user_name'";
+                                    $resultat = $cnx->query($requette);
+    
+                                    foreach ($resultat as $row){
+                                        $fileName = $row['titre'];
+                                        echo "<div class='card'>";
+                                            echo "<div class='card-body'>";
+                                                echo "<p>".$fileName."</p>";
+                                                echo ("<a title='Download' href=../modele/uploads/$fileName download>
+                                                        <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
+                                                      </a>");
+                                                echo "<a class='hoverName'>".$row["auteur"]."</a>";
+                                                
+                                            echo "</div>";
                                         echo "</div>";
-                                    echo "</div>";
+                                    }
+                                    $resultat->closeCursor();
+                                } catch (PDOException $e){
+                                    print "Erreur!: " . $e->getMessage() . "<br/>";
+                                    die();
                                 }
-                                //$resultat->closeCursor();
-                            } catch (PDOException $e){
-                                print "Erreur!: " . $e->getMessage() . "<br/>";
-                                die();
-                            }
-                        ?>
+                            ?>
                         </div>
                     </article>
                 </main>
@@ -115,13 +128,15 @@
                         <?php   //AFFICHAGE DES DEMANDES AMIS          
                                 try{
                                     //Aller chercher les informations des utilisateur ayant une relation P(ending) avec l'utilisateur connecté
+                                    $requette = "SELECT * FROM relation WHERE (sender = '$user_name' OR receiver ='$user_name') AND statut = 'P'";
+                                    $resultat = $cnx->query($requette);
                                     $nomDemande = "";
-                                    $resultat = $daoR->getTousLesRelationsPending();
+    
                                     foreach ($resultat as $row){
-                                        if($row->getSender()!= $user_name){
-                                            $nomDemande = $row->getSender();
-                                        }elseif($row->getReceiver()!= $user_name){
-                                            $nomDemande = $row->getReceiver();
+                                        if($row["sender"]!= $user_name){
+                                            $nomDemande = $row["sender"];
+                                        }elseif($row["receiver"]!=$user_name){
+                                            $nomDemande = $row["receiver"];
                                         }
                                         echo "<div class='card'>";
                                             echo "<div class='card-body'>";
@@ -134,7 +149,7 @@
                                         echo "</div>";
 
                                     }
-                                    //$resultat->closeCursor();
+                                    $resultat->closeCursor();
                                 } catch (PDOException $e){
                                     print "Erreur!: " . $e->getMessage() . "<br/>";
                                     die();
@@ -145,16 +160,18 @@
                     <h3>Vos Amis</h3>
                     <div>
                         
-                        <?php   //AFFICHAGE DES AMIS DE L'UTILISATEUR       Ajouter bouton pour enlever ami
+                        <?php   //AFFICHAGE DES AMIS DE L'UTILISATEUR
                             try{
                                 //Aller chercher les informations des utilisateur ayant une relation F(riend) avec l'utilisateur connecté
+                                $requette = "SELECT * FROM relation WHERE (sender = '$user_name' OR receiver ='$user_name') AND statut = 'F'";
+                                $resultat = $cnx->query($requette);
                                 $nomAmi = "";
-                                $resultat = $daoR->getTousLesRelationsFriend();
+
                                 foreach ($resultat as $row){
-                                    if($row->getSender()!= $user_name){
-                                        $nomAmi = $row->getSender();
-                                    }elseif($row->getReceiver()!= $user_name){
-                                        $nomAmi = $row->getReceiver();
+                                    if($row["sender"]!= $user_name){
+                                        $nomAmi = $row["sender"];
+                                    }elseif($row["receiver"]!=$user_name){
+                                        $nomAmi = $row["receiver"];
                                     }
                                     echo "<div class='card'>";
                                         echo "<div class='card-body'>";
@@ -166,7 +183,7 @@
                                         echo "</div>";
                                     echo "</div>";
                                 }
-                                //$resultat->closeCursor();
+                                $resultat->closeCursor();
                             } catch (PDOException $e){
                                 print "Erreur!: " . $e->getMessage() . "<br/>";
                                 die();
