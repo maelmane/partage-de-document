@@ -119,6 +119,7 @@ input[type=text]{
 
 .nomProfile{
     border: none;
+    background-color: white;
 }
 
 .nomProfile:hover{
