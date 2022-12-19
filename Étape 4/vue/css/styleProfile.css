@@ -61,6 +61,7 @@ aside {
 
 .nomProfile{
     border: none;
+    background-color: white;
 }
 
 .nomProfile:hover{
