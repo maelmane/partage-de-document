@@ -15,19 +15,14 @@
         exit;
     }
     
-    //Inclusion de la page de connexionBD et User
-    include_once ('../modele/DAO/ConnexionBD.class.php');
-    /*
-    include_once ('../modele/classes/User.class.php');
-    include_once ('../modele/DAO/UserDAO.class.php');
-    $dao = new UserDAO();
-    */
-
+    //Inclusion de la page de config
+    require_once ('../modele/DAO/ConnexionBD.class.php');
+    
     //Définir et initialiser les variables
     $username = $password = "";
     $err_username = $err_password = $err_connexion = "";
     
-
+    $cnx=ConnexionBD::getConnexion();
     if($_SERVER["REQUEST_METHOD"] == "POST"){
     
         //Vérifier si le username est vide
@@ -69,20 +64,20 @@
                                 //Si le password correspond commencer une nouvelle session
                                 session_start();
                                 
-                                // Store data in session variables
+                                
                                 $_SESSION["loggedin"] = true;
                                 $_SESSION["id"] = $id;
                                 $_SESSION["username"] = $username;                            
                                 
                                 //Rediriger vers la page d'acceuil
-                                header("location: vueAccueil.php");
+                                header("location: vueAcceuil.php");
                             } else{
                                 //Password pas bon
                                 $err_connexion = "Username ou Password invalide";
                             }
                         }
                     } else{
-                        // Username doesn't exist, display a generic error message
+                        // Si l'username n'existe pas
                         $err_connexion = "Username ou Password invalide";
                     }
                 } else{
@@ -113,8 +108,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
     <title>Connexion</title>
+  </head>
 
-    <body>
+  <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <h1>Connexion</h1>
       <div class="logo">

@@ -43,3 +43,15 @@
 .card-body p>span{
     margin-left: 10px;
 }
+
+.nomProfile{
+    border: none;
+}
+
+.nomProfile:hover{
+    color: #E26D00;
+}
+
+#like{
+    border: none;
+}

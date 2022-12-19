@@ -4,6 +4,10 @@
     margin-right: 10px;
 }
 
+.btnAction{
+    margin-bottom: 5px;
+}
+
 #logo{
     height: 10%;
     width: 45px;
@@ -46,14 +50,6 @@ aside {
 .hoverName:hover{
     color: #E26D00;
     text-decoration: none;
-}
-
-.bi-person-plus:hover{
-    color: lightskyblue;
-}
-
-.bi-person-dash:hover{
-    color: red;
 }
 
 .icon{
@@ -119,4 +115,12 @@ input[type=text]{
 
 #recherche{
     padding: 0 12px;
+}
+
+.nomProfile{
+    border: none;
+}
+
+.nomProfile:hover{
+    color: #E26D00;
 }

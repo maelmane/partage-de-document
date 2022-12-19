@@ -6,10 +6,11 @@
 -->
 <?php
   session_start();
-  //$user_name = $_SESSION['username'];
+  $user_name = $_SESSION['username'];
 
   require_once ('../modele/DAO/ConnexionBD.class.php');
 
+  $cnx=ConnexionBD::getConnexion();
   try{
     if(isset($_FILES['file'])){
       $errors= array();
@@ -25,26 +26,33 @@
       
       $param_username = trim($user_name);
       $param_filename = trim($file_name);
-        
-      if(empty($errors)==true){
-        move_uploaded_file($file_tmp,"uploads/".$file_name);
-        $req = "UPDATE files set titre = '$file_name', statut='$file_visibility' where titre = '$titreMod'";
-        if($res = $cnx->prepare($req)){
-          $res->bindParam($user_name, $param_username, PDO::PARAM_STR);
-          $res->bindParam($file_name, $param_filename, PDO::PARAM_STR);
-          
-          $param_filename = $file_name;
-          $param_username = $user_name;
-        }
-        
-        if($res->execute()){
-          header("location: ../vue/vueCompte.php");
-        }else{
-          echo "Erreur";
-        }
+      if($titreMod==""){
+        echo ("<script>
+                window.alert('Vous devez entrer le nom du fichier à modifier');
+                window.location.href='../vue/vueCompte.php';
+              </script>");
       }else{
-        print_r($errors);
-      }
+        if(empty($errors)==true){
+          move_uploaded_file($file_tmp,"uploads/".$file_name);
+          $req = "UPDATE files set titre = '$file_name', statut='$file_visibility' where titre = '$titreMod'";
+          if($res = $cnx->prepare($req)){
+            $res->bindParam($user_name, $param_username, PDO::PARAM_STR);
+            $res->bindParam($file_name, $param_filename, PDO::PARAM_STR);
+            
+            $param_filename = $file_name;
+            $param_username = $user_name;
+          }
+          
+          if($res->execute()){
+            header("location: ../vue/vueCompte.php");
+          }else{
+            echo "Erreur";
+          }
+        }else{
+          print_r($errors);
+        }
+      }  
+      
     }
   }catch (PDOException $e){
     print "Erreur!: " . $e->getMessage() . "<br/>";
