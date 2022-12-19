@@ -2,11 +2,11 @@
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
     Dernière modifcation: 15/12/2022
-    Modifié par: Lesly Gourdet
+    Modifié par: Mael Mane
 -->
 <?php
     session_start();
-    //$user_name = $_SESSION['username'];
+    $user_name = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -24,9 +24,13 @@
     <body>
         <?php
             include_once ('../modele/headerConnecte.inc.php');
-            require_once ('../modele/classes/Document.class.php');
-            require_once ('../modele/DAO/DocumentsDAO.class.php');
-            $dao = new DocumentsDAO();
+            require_once ('../modele/DAO/ConnexionBD.class.php');
+            require_once ('../modele/classes/Files.class.php');
+            require_once ('../modele/DAO/FilesDAO.class.php');
+            require_once ('../modele/classes/Relation.class.php');
+            require_once ('../modele/DAO/RelationDAO.class.php');
+            $daoF = new FilesDAO();
+            $daoR = new RelationDAO();
        ?>
         <div class="container mt-3">
             
@@ -34,7 +38,7 @@
                 <main class="col-6 col-md-9">
                     <article>
                         <h2>Vos Documents</h2>
-
+                        
                         <button class="btn btnOrange btnAction" type="button" onclick="openForm()">Ajouter un document <i class="bi bi-cloud-arrow-up"></i></button>
                         <button class="btn btnOrange btnAction" type="button" onclick="openFormMod()">Modifier un document</button>
                         
@@ -70,82 +74,67 @@
                             </form>
                         </div>
 
+
                         <div class="docs">
-                            
                             <?php       //AFFICHAGE DES DOCUMENTS DE L'UTILISATEUR
                             try{
-                                /*Établir une connexion avec la base de données 
-                                include_once ('../modele/DAO/ConnexionBD.class.php');
-                                
-                                Insérer les données dans la table compte et l'executer
-                                $requette = "SELECT * FROM documents WHERE auteur = ".$_SESSION['username'];
-                                $requette = "SELECT * FROM documents WHERE auteur = '$user_name'";
-                                $resultat = $cnx->query($requette);
-                                */
-                                $resultat = $dao->getTousLesNomsDocuments();
+                                $resultat = $daoF->getTousLesFiles();
                                 foreach ($resultat as $row){
+                                    $fileName = $row->getTitre();
                                     echo "<div class='card'>";
                                         echo "<div class='card-body'>";
-                                            echo "<p>".$row->getTitre()."</p>";
+                                            echo "<p>".$fileName."</p>";
+                                            echo ("<a title='Télécharger' href=../modele/uploads/$fileName download>
+                                                    <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
+                                                  </a>");
+                                            //echo("<a title='Supprimer' href=../modele/delete.php delete>
+                                            //        <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
+                                            //    </a>");
                                             echo "<a class='hoverName'>".$row->getAuteur()."</a>";
-                                            echo "<button type='button' class='btn btnOrange' id='vis' onclick='openFormVisi()'>Visibilité</button>";
-                                            echo "</div>";
+                                            //echo "<button type='button' class='btn btnOrange' id='vis' onclick='openFormVisi()'>Visibilité</button>";
                                         echo "</div>";
                                     echo "</div>";
                                 }
-                               // $resultat->closeCursor();
+                                //$resultat->closeCursor();
                             } catch (PDOException $e){
                                 print "Erreur!: " . $e->getMessage() . "<br/>";
                                 die();
-                            } /*finally {
-                                //Fermer la connexion avec la base de données
-                                $cnx=null;
-                            } */
+                            }
                         ?>
-                        </div>
-                        <div class="form-popup" id="visibilite">
-                            <form action="" method="post" enctype="multipart/form-data" class="form-container">
-                                <h5 class="text-center">Veuillez choisir une option</h5>
-                                <p>HELLO</p>
-                                <input type="submit" class="btn btnOrange"/>
-                                <button type="button" class="btn btn-danger" onclick="closeFormVisi()">Annuler</button>
-                            </form>
                         </div>
                     </article>
                 </main>
                 <aside class="col-6 col-md-3">
-                    <h3>Demande d'amis</h3>
-                    <form>
-                        <input type=text name="nomAmi" placeholder="Rechercher un utilisateur"/>            <!--Ajouter action trouver amis-->
+                    <form action="vueProfile.php" method="POST">
+                        <input type=text name="profileName" placeholder="Rechercher un utilisateur"/>
                         <input type="submit" class="btn btnOrange" id="recherche" value="Rechercher">
                     </form>
+                    <h3>Demande d'amis</h3>
+                    
                     <div>
-                        <div class="card">  <!--Une card pour chaque ami...??-->
-                            <div class="card-body">
-                                <a class="hoverName" href="#">NomUser </a> <!--Faudrait link vers leur profil si possible-->
-                                <span class="icon"><i class="bi bi-person-plus" id="addFriend"></i> <i class="bi bi-person-dash" id="removeFriend"></i></span>    <!--bouton ajouter ou refuser demande d'ami-->
-                            </div>
-                        </div>
-                        <?php   //AFFICHAGE DES DEMANDES AMIS           Ajouter bouton pour accepter demande ami
+                        <?php   //AFFICHAGE DES DEMANDES AMIS          
                                 try{
                                     //Aller chercher les informations des utilisateur ayant une relation P(ending) avec l'utilisateur connecté
-                                    $requette = "SELECT * FROM relation WHERE (sender = '$user_name' OR receiver ='$user_name') AND statut = 'P'";
-                                    $resultat = $cnx->query($requette);
                                     $nomDemande = "";
-    
+                                    $resultat = $daoR->getTousLesRelationsPending();
                                     foreach ($resultat as $row){
-                                        if($row["sender"]!= $user_name){
-                                            $nomDemande = $row["sender"];
-                                        }elseif($row["receiver"]!=$user_name){
-                                            $nomDemande = $row["receiver"];
+                                        if($row->getSender()!= $user_name){
+                                            $nomDemande = $row->getSender();
+                                        }elseif($row->getReceiver()!= $user_name){
+                                            $nomDemande = $row->getReceiver();
                                         }
                                         echo "<div class='card'>";
                                             echo "<div class='card-body'>";
-                                                echo "<a class='hoverName'>".$nomDemande."</a>";
+                                                echo ("<form action=vueProfile.php method='post'>
+                                                            <input type='hidden' name='profileName' value='$nomDemande'>
+                                                            <input type='submit' value='$nomDemande' class='nomProfile'>
+                                                        </form>");
+                                                //echo "<a class='hoverName' href='vueProfile.php'>".$nomDemande."</a>";
                                             echo "</div>";
                                         echo "</div>";
+
                                     }
-                                    $resultat->closeCursor();
+                                    //$resultat->closeCursor();
                                 } catch (PDOException $e){
                                     print "Erreur!: " . $e->getMessage() . "<br/>";
                                     die();
@@ -157,31 +146,32 @@
                     <div>
                         
                         <?php   //AFFICHAGE DES AMIS DE L'UTILISATEUR       Ajouter bouton pour enlever ami
-                                try{
-                                    //Aller chercher les informations des utilisateur ayant une relation F(riend) avec l'utilisateur connecté
-                                    $requette = "SELECT * FROM relation WHERE (sender = '$user_name' OR receiver ='$user_name') AND statut = 'F'";
-                                    $resultat = $cnx->query($requette);
-                                    $nomAmi = "";
-
-                                    foreach ($resultat as $row){
-                                        if($row["sender"]!= $user_name){
-                                            $nomAmi = $row["sender"];
-                                        }elseif($row["receiver"]!=$user_name){
-                                            $nomAmi = $row["receiver"];
-                                        }
-                                        echo "<div class='card'>";
-                                            echo "<div class='card-body'>";
-                                                echo "<a class='hoverName'>".$nomAmi."</a>";
-                                                //echo "<span class='icon'><i class='bi bi-person-plus' id='addFriend'></i> <i class='bi bi-person-dash' id='removeFriend'></span>";
-                                            echo "</div>";
-                                        echo "</div>";
+                            try{
+                                //Aller chercher les informations des utilisateur ayant une relation F(riend) avec l'utilisateur connecté
+                                $nomAmi = "";
+                                $resultat = $daoR->getTousLesRelationsFriend();
+                                foreach ($resultat as $row){
+                                    if($row->getSender()!= $user_name){
+                                        $nomAmi = $row->getSender();
+                                    }elseif($row->getReceiver()!= $user_name){
+                                        $nomAmi = $row->getReceiver();
                                     }
-                                    $resultat->closeCursor();
-                                } catch (PDOException $e){
-                                    print "Erreur!: " . $e->getMessage() . "<br/>";
-                                    die();
+                                    echo "<div class='card'>";
+                                        echo "<div class='card-body'>";
+                                        echo ("<form action=vueProfile.php method='post'>
+                                                <input type='hidden' name='profileName' value='$nomAmi'>
+                                                <input type='submit' value='$nomAmi' class='nomProfile'>
+                                            </form>");
+                                            //echo "<a class='hoverName' href='vueAutreUser.php'>".$nomAmi."</a>";
+                                        echo "</div>";
+                                    echo "</div>";
                                 }
-                            ?>
+                                //$resultat->closeCursor();
+                            } catch (PDOException $e){
+                                print "Erreur!: " . $e->getMessage() . "<br/>";
+                                die();
+                            }
+                        ?>
                     </div>
                 </aside>
             </div>

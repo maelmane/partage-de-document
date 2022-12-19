@@ -5,21 +5,21 @@
     Modifié par : Lesly Gourdet
 -->
 <?php
-
+    
     include_once ('ConnexionBD.class.php');
-    include_once ('../modele/classes/User.class.php');
+    include_once ('../modele/classes/Users.class.php');
 
-    class DocumentsDAO{
+    class UsersDAO{
 
-        public static function getTousLesNomsUsers(){
+        public static function getTousLesUsers(){
             try{
                 $listeUsers =  array();
-                $req = "SELECT * FROM users";
                 $cnx = ConnexionBD::getConnexion();
+                $req = "SELECT * FROM users";
                 $resultat = $cnx->query($req);
                 
                 foreach($resultat as $row){
-                    $user = new Document();
+                    $user = new Users();
                     $user->setUsername($row['username']);
                     $user->setPassword($row['password']);
                     array_push($listeUsers,$user);
@@ -34,23 +34,25 @@
         }
 
         public static function findUser($nomUser){
-            $bd = ConnexionBD::getConnexion();
-            $stmt = $bd->prepare("SELECT * FROM users WHERE username = :x");
-            $stmt->execute(array(':x' => $nomUser));
+            try
+            {
+                $user=null;
+                $bd = ConnexionBD::getConnexion();
+                $req = $bd->prepare("SELECT * FROM users WHERE username = :x");
+                $req = bindParam(":x", $nomUser);
+                $req->execute();
 
-            $resultat = $stmt->fetch(PDO::FETCH_OBJ);
+                $resultat = $req->fetch(PDO::FETCH_OBJ);
 
-            if($resultat){
-                $user = new Document();
-                $user->setUsername($resultat->username);
-                $stmt->closeCursor();
+                if($resultat){
+                    $user = new Users($resultat['username']);
+                }
+                $req->closeCursor();
+                ConnexionBD::close();
                 return $user;
-            }
-            $stmt->closeCursor();
-            ConnexionBD::close();
-            return null;
+            } catch (Exception $e) {
+                throw new Exception("Impossible d’obtenir la connexion à la BD.");
+            } 
         }
-
-        
     }
 ?>

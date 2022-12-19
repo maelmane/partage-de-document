@@ -7,20 +7,14 @@
 
 
 <?php
-    //Inclusion de la page connexionBD et User
-    include_once ('../modele/DAO/ConnexionBD.class.php');
-    /*
-    include_once ('../modele/classes/User.class.php');
-    include_once ('../modele/DAO/UserDAO.class.php');
-    $dao = new UserDAO();
-    */
-
+    //Inclusion de la page config
+    require_once ('../modele/DAO/ConnexionBD.class.php');
     
     //Définir et initialiser les variables
     $username = $password = $confirm_password = "";
     $err_username = $err_password = $confirm_err_password = "";
     
-
+    $cnx=ConnexionBD::getConnexion();
     if($_SERVER["REQUEST_METHOD"] == "POST"){
     
         //Valider l'username
@@ -31,7 +25,7 @@
         } else{
             //Requette SELECT
             $requette = "SELECT id FROM users WHERE username = :username";
-            
+
             if($res = $cnx->prepare($requette)){
                 $res->bindParam(":username", $param_username, PDO::PARAM_STR);
                 

@@ -5,10 +5,15 @@
     Modifié par: Lesly Gourdet
 -->
 <?php
-    class User {
+    class Users {
         // Attributs
+        private $id = 0;
         private $username = "";
         private $password = "";
+
+        public function getId() {
+            return $this->id;
+        }
     
         public function getUsername() {
             return $this->username;
@@ -16,6 +21,10 @@
 
         public function getPassword() {
             return $this->password;
+        }
+
+        public function setId($value){
+            $this->id = $value;
         }
 
         public function setUsername($value){

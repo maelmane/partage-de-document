@@ -1,8 +1,8 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 21/10/2022
-    Dernière modifcation: 16/12/2022
-    Modifié par: Lesly Gourdet
+    Dernière modifcation: 14/12/2022
+    Modifié par: Mael Mane
 -->
 
 <!DOCTYPE html>
@@ -25,49 +25,39 @@
             }else{
                 include_once ('../modele/header.inc.php');
             }
-            require_once ('../modele/classes/Document.class.php');
-            require_once ('../modele/DAO/DocumentsDAO.class.php');
-            $dao = new DocumentsDAO();
+            require_once ('../modele/DAO/ConnexionBD.class.php');
+            require_once ('../modele/classes/Files.class.php');
+            require_once ('../modele/DAO/FilesDAO.class.php');
+            $daoF = new FilesDAO();
        ?>
         <main>
             <div class="container mt-3">
                 <div class="row">
                     <div class="col-6 col-md-9 docs">
-                        <!--  GABARIT DES CARDS POUR AFFICHAGE DES DOCS PUBLICS
-                        <div class="card">  
-                            <div class="card-body">
-                                <p>NomDocument <span><i class="bi bi-heart"></i></span></p>     <--bouton "liker">
-                                <span class="icon"><button class="btn btnOrange" type="button"><i class="bi bi-cloud-arrow-down"></i></button></span>    <--bouton télécharger>
-                                <a class="hoverName" href="#">NomUser</a> <--Faudrait link vers leur profil si possible>
-                            </div>
-                            <div class="card-footer">
-                                <form class="d-flex">
-                                    <input class="form-control me-2" type="text" placeholder="Écrire un commentaire">
-                                    <button class="btn btnOrange" type="button"><i class="bi bi-chat-left"></i></button>    <--bouton commenter>
-                                </form>
-                            </div>
-                        </div> 
-                        -->
-
                         <?php
                             try{
-                                /* Établir une connexion avec la base de données partagedoc
-                                $cnx = new PDO('mysql:host=localhost; dbname=partagedoc', "root", "");
-                                
-                                Prendre les données des input du form  dans vueCreerCompte
-                                
-                                Insérer les données dans la table compte et l'executer
-                                $requette = "SELECT * FROM documents WHERE  statut = 'public'";
-                                $resultat = $cnx->query($requette);
-                                */
-
-                                $resultat = $dao->getTousLesDocumentsPublics();
+                                //Insérer les données dans la table compte et l'executer
+                                $resultat = $daoF->getTousLesFilesPublics();
                                 foreach ($resultat as $row){
+                                    $nomDemande = $row->getAuteur();
+                                    $nbLike = $row->getNbLike();
+                                    $fileName = $row->getTitre();
                                     echo "<div class='card'>";
                                         echo "<div class='card-body'>";
-                                            echo "<p>".$row->getTitre()."<span> <i class='bi bi-heart'></i></span> ".$row->getNbLike()."</p>";
-                                            echo "<span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>";
-                                            echo "<a class='hoverName'>".$row->getAuteur()."</a>";
+                                            echo "<p>".$fileName."</p>";
+                                            echo ("<a title='Download' href=../modele/uploads/$fileName download>
+                                                    <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
+                                                  </a>");
+                                            echo ("<form action=vueProfile.php method='post'>
+                                                            <input type='hidden' name='profileName' value='$nomDemande'>
+                                                            <input type='submit' value='$nomDemande' class='nomProfile'>
+                                                    </form>");
+                                            echo ("<form action='../modele/likeDoc.php' method='post'>
+                                                        <button id='like' type=submit><i class='bi bi-heart'></i></button>
+                                                        <span>".$nbLike."</span>
+                                                        <input type='hidden' name= 'nbLike' value='$nbLike'>
+                                                        <input type='hidden' name= 'fileName' value='$fileName'>
+                                                    </form>");
                                         echo "</div>";
                                         echo "<div class='card-footer'>";
                                             echo "<form class='d-flex'>";
@@ -77,14 +67,14 @@
                                         echo "</div>";
                                     echo "</div>";
                                 }
-                             //   $resultat->closeCursor();
+                                //$resultat->closeCursor();
                             } catch (PDOException $e){
                             print "Erreur!: " . $e->getMessage() . "<br/>";
                             die();
-                            } /* finally {
-                                Fermer la connexion avec la base de données
+                            } finally {
+                                //Fermer la connexion avec la base de données
                                 $cnx=null;
-                            } */
+                            }
                         ?>
                     </div>
                 </div>

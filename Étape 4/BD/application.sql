@@ -40,27 +40,6 @@ INSERT INTO `users` (`id`, `username`, `password`) VALUES
 	(7, 'Alex_Smith', '$2y$10$awdjyUoPY2YQLPYT1tFvGuI86b9F6ZxSoJwFzZTUg/RksRvWug1tm'),
 	(8, 'XwillieX', '$2y$10$xgX3AXZtiFgke/Y/fDDi7.DoKTSyw8pgG18IfX6zvXxKaomfl2zbi');
 
--- Dumping structure for table application.documents
-CREATE TABLE IF NOT EXISTS `documents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titre` varchar(50) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `auteur` varchar(50) NOT NULL COMMENT 'username de l''auteur',
-  `statut` varchar(50) NOT NULL COMMENT 'public,privé,protégé',
-  `nbLike` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `auteur` (`auteur`),
-  CONSTRAINT `auteur` FOREIGN KEY (`auteur`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- Dumping data for table application.documents: ~4 rows (approximately)
-INSERT INTO `documents` (`id`, `titre`, `url`, `auteur`, `statut`, `nbLike`) VALUES
-	(1, 'Exercie1.py', '/exercices', 'JaneDoe7', 'privé', 0),
-	(2, 'photo_vaccances.png', '/images', 'john_12', 'public', 122),
-	(3, 'examenFormatif.java', '/examen', 'JaneDoe7', 'public', 32),
-	(4, 'Devoir2.php', '/images', 'JoshDane', 'public', 0);
-
 -- Dumping structure for table application.files
 CREATE TABLE IF NOT EXISTS `files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -70,19 +49,24 @@ CREATE TABLE IF NOT EXISTS `files` (
   `statut` varchar(50) NOT NULL DEFAULT 'privé',
   `nbLike` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Dumping data for table application.files: ~9 rows (approximately)
+-- Dumping data for table application.files: ~14 rows (approximately)
 INSERT INTO `files` (`id`, `titre`, `auteur`, `date`, `statut`, `nbLike`) VALUES
-	(1, 'CompteException.java', 'JaneDoe7', '2022-12-15 21:58:13', 'privé', 0),
+	(1, 'Exercice_3.py', 'JaneDoe7', '2022-12-15 21:58:13', 'protégé', 0),
 	(2, 'ExempleBlocException.java', 'JaneDoe7', '2022-12-15 21:59:10', 'privé', 0),
-	(3, 'ExempleOutofMemoryError.java', 'JaneDoe7', '2022-12-16 01:53:31', 'public', 1),
+	(3, 'ExempleOutofMemoryError.java', 'JaneDoe7', '2022-12-16 01:53:31', 'public', 2),
 	(4, 'GuessingGame.java', 'matt_4', '2022-12-16 01:56:47', 'public', 5),
 	(5, 'Cube.py', 'matt_4', '2022-12-16 01:57:37', 'public', 6),
 	(6, 'character.txt', 'paulie90', '2022-12-16 01:58:19', 'public', 3),
 	(7, 'labo3-2.png', 'paulie90', '2022-12-16 01:59:09', 'public', 0),
 	(8, 'Série E13 1.csproj', 'paulie90', '2022-12-16 01:59:43', 'public', 0),
-	(9, 'BD relationnelles.pdf', 'paulie90', '2022-12-16 02:00:08', 'public', 3);
+	(9, 'BD relationnelles.pdf', 'paulie90', '2022-12-16 02:00:08', 'public', 3),
+	(10, 'Exemple_Tableau.py', 'john_12', '2022-12-18 00:03:30', 'protégé', 0),
+	(11, 'Exemple_Return.py', 'john_12', '2022-12-18 00:03:42', 'public', 1),
+	(12, 'Exercice1.py', 'john_12', '2022-12-18 00:03:57', 'public', 0),
+	(13, 'Exercice1-Sans_parametre.py', 'john_12', '2022-12-18 00:04:04', 'protégé', 0),
+	(14, 'Exemple_Return.py', 'JaneDoe7', '2022-12-18 18:21:58', 'public', 1);
 
 -- Dumping structure for table application.relation
 CREATE TABLE IF NOT EXISTS `relation` (
@@ -92,15 +76,18 @@ CREATE TABLE IF NOT EXISTS `relation` (
   `statut` varchar(1) NOT NULL COMMENT 'P(ending)/F(riend)/B(locked)',
   PRIMARY KEY (`id_relation`),
   UNIQUE KEY `id_relation` (`id_relation`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Dumping data for table application.relation: ~4 rows (approximately)
+-- Dumping data for table application.relation: ~8 rows (approximately)
 INSERT INTO `relation` (`id_relation`, `sender`, `receiver`, `statut`) VALUES
-	(1, 'john_12', 'JaneDoe7', 'F'),
+	(1, 'john_12', 'JaneDoe7', 'B'),
 	(2, 'JaneDoe7', 'Alex_Smith', 'F'),
-	(3, 'paulie90', 'JaneDoe7', 'P'),
+	(3, 'paulie90', 'JaneDoe7', 'F'),
 	(4, 'matt_4', 'john_12', 'F'),
-	(5, 'Joe64', 'JaneDoe7', 'P');
+	(5, 'Joe64', 'JaneDoe7', 'P'),
+	(6, 'matt_4', 'Joe64', 'P'),
+	(7, 'matt_4', 'JaneDoe7', 'F'),
+	(11, 'paulie90', 'matt_4', 'P');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

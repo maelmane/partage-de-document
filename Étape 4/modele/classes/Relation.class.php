@@ -7,9 +7,14 @@
 <?php
     class Relation {
         // Attributs
+        private $id_relation = 0;
         private $sender = "";
         private $receiver = "";
-        private $nbLike = "";
+        private $statut = "";
+
+        public function getId_relation() {
+            return $this->id_relation;
+        }
     
         public function getSender() {
             return $this->sender;
@@ -21,6 +26,10 @@
 
         public function getStatut() {
             return $this->statut;
+        }
+
+        public function setId_relation() {
+            return $this->id_relation;
         }
 
         public function setSender() {

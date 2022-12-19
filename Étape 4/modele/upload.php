@@ -1,16 +1,20 @@
 <!--
     Auteur: Lesly Gourdet
     Date de créaton: 10/11/2022
-    Dernière modifcation: 14/12/2022
-    Modifié par: Mael Mane
+    Dernière modifcation: 18/12/2022
+    Modifié par: Lesly Gourdet
 -->
 
 <?php
   session_start();
-  //$user_name = $_SESSION['username'];
+  $user_name = $_SESSION['username'];
 
   require_once ('../modele/DAO/ConnexionBD.class.php');
+  require_once ('../modele/classes/Files.class.php');
+  require_once ('../modele/DAO/FilesDAO.class.php');
+  $daoF = new FilesDAO();
 
+  $cnx=ConnexionBD::getConnexion();
   try{
     if(isset($_FILES['file'])){
       $errors= array();

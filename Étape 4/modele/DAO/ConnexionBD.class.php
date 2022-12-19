@@ -6,7 +6,7 @@
 -->
 
 <?php
-	require_once('config/configBD.interface.php');
+	require_once('config/ConfigBD.interface.php');
 
 	class ConnexionBD
 	{	
