@@ -46,6 +46,7 @@
 
 .nomProfile{
     border: none;
+    background-color: white;
 }
 
 .nomProfile:hover{
@@ -54,4 +55,5 @@
 
 #like{
     border: none;
+    background-color: white;
 }
