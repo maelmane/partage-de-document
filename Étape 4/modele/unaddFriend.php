@@ -19,7 +19,7 @@
 
             $param_friendname = trim($friendName);
             $param_username = trim($user_name);
-            $req = "UPDATE relation set statut ='B' where ((sender='$friendName' AND receiver='$user_name') OR (sender='$user_name' AND receiver='$friendName'))";
+            $req = "DELETE FROM relation where ((sender='$friendName' AND receiver='$user_name') OR (sender='$user_name' AND receiver='$friendName'))";
             if($res = $cnx->prepare($req)){
                 $res->bindParam($user_name, $param_username, PDO::PARAM_STR);
                 $res->bindParam($friendName, $param_friendname, PDO::PARAM_STR);

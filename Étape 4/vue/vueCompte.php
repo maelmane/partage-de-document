@@ -1,7 +1,7 @@
 <!--
     Auteur: Mael Mane
     Date de créaton: 19/10/2022
-    Dernière modifcation: 18/12/2022
+    Dernière modifcation: 15/12/2022
     Modifié par: Mael Mane
 -->
 <?php
@@ -24,14 +24,7 @@
     <body>
         <?php
             include_once ('../modele/headerConnecte.inc.php');
-            require_once ('../modele/DAO/ConnexionBD.class.php');
-            require_once ('../modele/classes/Files.class.php');
-            require_once ('../modele/DAO/FilesDAO.class.php');
-            require_once ('../modele/classes/Relation.class.php');
-            require_once ('../modele/DAO/RelationDAO.class.php');
             require_once '../modele/config/dbConfig.php';
-            $daoF = new FilesDAO();
-            $daoR = new RelationDAO();
        ?>
         <div class="container mt-3">
             
@@ -42,7 +35,6 @@
                         
                         <button class="btn btnOrange btnAction" type="button" onclick="openForm()">Ajouter un document <i class="bi bi-cloud-plus"></i></button>
                         <button class="btn btnOrange btnAction" type="button" onclick="openFormMod()">Modifier un document</button>
-                        <button class="btn btn-danger btnAction" type="button" onclick="openFormSup()">Supprimer un document</button>
                         
                         <div class="form-popup" id="formDoc">
                             <form action="../modele/upload.php" method="post" enctype="multipart/form-data" class="form-container">
@@ -77,17 +69,6 @@
                         </div>
 
 
-                        <div class="form-popup" id="formSup">
-                            <form action="../modele/delete.php" method="post" enctype="multipart/form-data" class="form-container">
-                                <h5 class="text-center">Veuillez choisir un document</h5>
-                                <label>Nom du fichier a supprimé:</label>
-                                <input type="text" name="titreFile" id="nomFichier"/>
-                                <input type="submit" class="btn btnOrange"/>
-                                <button type="button" class="btn btn-danger" onclick="closeFormSup()">Annuler</button>
-                            </form>
-                        </div>
-
-
                         <div class="docs">
                             <?php       //AFFICHAGE DES DOCUMENTS DE L'UTILISATEUR
                                 try{
@@ -97,13 +78,19 @@
     
                                     foreach ($resultat as $row){
                                         $fileName = $row['titre'];
+                                        $auteur = $row['auteur'];
                                         echo "<div class='card'>";
                                             echo "<div class='card-body'>";
                                                 echo "<p>".$fileName."</p>";
-                                                echo ("<a title='Download' href=../modele/uploads/$fileName download>
+                                                echo ("<form action='../modele/delete.php' method='post'>
+                                                        <button class='btn btn-danger' id='trash' type=submit title='Supprimer Fichier'><i class='bi bi-trash3'></i></button>
+                                                        <input type='hidden' name= 'fileName' value='$fileName'>
+                                                    </form>");
+                                                echo ("<a title='Télécharger' href=../modele/uploads/$fileName download>
                                                         <span class='icon'><button class='btn btnOrange' type='button'><i class='bi bi-cloud-arrow-down'></i></button></span>
                                                       </a>");
-                                                echo "<a class='hoverName'>".$row["auteur"]."</a>";
+                                                
+                                                echo "<a class='hoverName'>".$auteur."</a>";
                                                 
                                             echo "</div>";
                                         echo "</div>";

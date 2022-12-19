@@ -125,3 +125,8 @@ input[type=text]{
 .nomProfile:hover{
     color: #E26D00;
 }
+
+#trash{
+    float: right;
+    padding: 2px 12px;
+}

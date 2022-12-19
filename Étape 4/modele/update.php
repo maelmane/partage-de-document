@@ -33,11 +33,7 @@
               </script>");
       }else{
         if(empty($errors)==true){
-<<<<<<< HEAD
           move_uploaded_file($file_tmp,"uploads/".$file_name);
-=======
-          //move_uploaded_file($file_tmp,"uploads/".$file_name);
->>>>>>> 0619bd099c267e639247e04a8fbafea387eb7587
           $req = "UPDATE files set titre = '$file_name', statut='$file_visibility' where titre = '$titreMod'";
           if($res = $cnx->prepare($req)){
             $res->bindParam($user_name, $param_username, PDO::PARAM_STR);

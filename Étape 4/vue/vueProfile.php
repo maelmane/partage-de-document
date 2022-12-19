@@ -68,6 +68,10 @@
                                             <button class='btn btn-primary btnAction' type='submit title='Add Friend''><i class='bi bi-person-plus'></i></button>
                                             <input type='hidden' name='profileName' value='$profileName'>
                                         </form>");
+                                echo ("<form method='post' action='../modele/unaddFriend.php'>
+                                            <button title='Unadd Friend' class='btn btn-danger btnAction' type='submit' id='unadd'><i class='bi bi-person-dash'></i></button>
+                                            <input type='hidden' name='profileName' value='$profileName'>
+                                        </form>");
                             }
 
                         }catch(PDOException $e){

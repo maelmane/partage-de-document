@@ -8,8 +8,9 @@
 <?php
     session_start();
     require_once ('../modele/DAO/ConnexionBD.class.php');
+    require_once '../modele/config/dbConfig.php';
 
-    $cnx=ConnexionBD::getConnexion();
+    //$cnx=ConnexionBD::getConnexion();
     $user_name = $_SESSION['username'];
     $friendName = $_POST['profileName'];
     $param_friendname = $param_username = "";

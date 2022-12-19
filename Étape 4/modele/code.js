@@ -19,3 +19,11 @@ function openFormMod(){
 function closeFormMod() {
     document.getElementById("formMod").style.display = "none";
 }
+
+function openFormSup(){
+    document.getElementById("formSup").style.display = "block";
+}
+ 
+function closeFormSup() {
+    document.getElementById("formSup").style.display = "none";
+}

@@ -1,7 +1,7 @@
 <!--
     Auteur: Lesly Gourdet
     Date de créaton: 18/12/2022
-    Dernière modifcation: 18/12/2022
+    Dernière modifcation: 19/12/2022
     Modifié par: Mael Mane
 -->
 
@@ -13,32 +13,22 @@
 
 
   try{
-    if(isset($_FILES['file'])){
       $errors= array();
-      //$file_name = $_FILES['file']['name'];
-      $file_tmp =$_FILES['file']['tmp_name'];
-      $file_ext=strtolower(end(explode('.',$_FILES['file']['name'])));
-      //$file_content = file_get_contents($_FILES['file']);
-
-      $titreMod = $_POST['titreFile'];
-      
-
-      $param_filename = "";
+      $titreMod = $_POST['fileName'];
+      $param_username = $param_filename = "";
       
       
       $param_filename = trim($titreMod);
-      if($titreMod==""){
-        echo ("<script>
-                window.alert('Vous devez entrer le nom du fichier à modifier');
-                window.location.href='../vue/vueCompte.php';
-              </script>");
-      }else{
+      $param_username = trim($user_name);
+
         if(empty($errors)==true){
-          $req = "DELETE FROM fies where titre= '$titreMod'";
+          $req = "DELETE FROM files where titre= '$titreMod' AND auteur = '$user_name'";
           if($res = $cnx->prepare($req)){
             $res->bindParam($titreMod, $param_filename, PDO::PARAM_STR);
+            $res->bindParam($user_name, $param_username, PDO::PARAM_STR);
             
             $param_filename = $titreMod;
+            $param_username = $user_name; 
           }
           
           if($res->execute()){
@@ -49,10 +39,9 @@
         }else{
           print_r($errors);
         }
-      }  
+        
       
-    }
-  }catch (PDOException $e){
+    }catch (PDOException $e){
     print "Erreur!: " . $e->getMessage() . "<br/>";
     die();
   }
