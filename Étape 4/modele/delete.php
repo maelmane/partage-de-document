@@ -1,34 +1,62 @@
 <!--
     Auteur: Lesly Gourdet
-    Date de créaton: 10/11/2022
+    Date de créaton: 18/12/2022
     Dernière modifcation: 18/12/2022
-    Modifié par: Lesly Gourdet
+    Modifié par: Mael Mane
 -->
 
 <?php
   session_start();
   $user_name = $_SESSION['username'];
 
-  require_once ('../modele/DAO/ConnexionBD.class.php');
-  require_once ('../modele/classes/Files.class.php');
-  require_once ('../modele/DAO/FilesDAO.class.php');
-  $daoF = new FilesDAO();
+  require_once '../modele/config/dbConfig.php';
 
-  $cnx=ConnexionBD::getConnexion();
-    public static function deleteFile($titreFile){
-        try
-        {
-            $file_name = $_POST['file_name'];
-            $location = "upload/".$file_name;
-            if(file_exists($location)){
-                $delete  = unlink($location);
-            if($delete){
-                echo "delete réussi";
-            }else{
-               echo "delete pas réussi";
-            }
-            }
-        } catch (Exception $e) {
-            throw new Exception("Impossible d’obtenir la connexion à la BD.");
+
+  try{
+    if(isset($_FILES['file'])){
+      $errors= array();
+      //$file_name = $_FILES['file']['name'];
+      $file_tmp =$_FILES['file']['tmp_name'];
+      $file_ext=strtolower(end(explode('.',$_FILES['file']['name'])));
+      //$file_content = file_get_contents($_FILES['file']);
+
+      $titreMod = $_POST['titreFile'];
+      
+
+      $param_filename = "";
+      
+      
+      $param_filename = trim($titreMod);
+      if($titreMod==""){
+        echo ("<script>
+                window.alert('Vous devez entrer le nom du fichier à modifier');
+                window.location.href='../vue/vueCompte.php';
+              </script>");
+      }else{
+        if(empty($errors)==true){
+          $req = "DELETE FROM fies where titre= '$titreMod'";
+          if($res = $cnx->prepare($req)){
+            $res->bindParam($titreMod, $param_filename, PDO::PARAM_STR);
+            
+            $param_filename = $titreMod;
+          }
+          
+          if($res->execute()){
+            header("location: ../vue/vueCompte.php");
+          }else{
+            echo "Erreur";
+          }
+        }else{
+          print_r($errors);
         }
+      }  
+      
     }
+  }catch (PDOException $e){
+    print "Erreur!: " . $e->getMessage() . "<br/>";
+    die();
+  }
+
+?>
+
+  
